@@ -176,9 +176,9 @@ public class ForecastFragment extends Fragment {
                 resultStrs[i] = day + " - " + description + " - " + highAndLow;
             }
 
-            for (String s : resultStrs) {
+           /* for (String s : resultStrs) {
                 Log.e(LOG_TAG, "Forecast entry: " + s);
-            }
+            }*/
             return resultStrs;
 
         }
@@ -267,8 +267,8 @@ public class ForecastFragment extends Fragment {
                         Log.e(LOG_TAG, "Error closing stream", e);
                     }
                 }
-                Log.e(LOG_TAG, buildUri.toString());
-                Log.e(LOG_TAG, forecastJsonStr);
+                //Log.e(LOG_TAG, buildUri.toString());
+                //Log.e(LOG_TAG, forecastJsonStr);
             }
 
             try
@@ -276,7 +276,8 @@ public class ForecastFragment extends Fragment {
                 return getWeatherDataFromJson(forecastJsonStr,numDays);
             }
             catch (JSONException e){
-                Log.e(LOG_TAG, e.getMessage(), e);
+                e.printStackTrace();
+                //Log.e(LOG_TAG, e.getMessage(), e);
             }
 
             return null;
