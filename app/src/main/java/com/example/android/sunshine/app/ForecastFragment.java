@@ -1,5 +1,6 @@
 package com.example.android.sunshine.app;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -78,19 +79,33 @@ public class ForecastFragment extends Fragment {
         int id = item.getItemId();
         if(id == R.id.action_refresh){
             FetchWeatherTask mFetchWeatherTask = new FetchWeatherTask();
-            mFetchWeatherTask.execute();
+            mFetchWeatherTask.execute("94043");
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public class FetchWeatherTask extends AsyncTask<Void,Void,Void>{
+    public class FetchWeatherTask extends AsyncTask<String,Void,Void>{
 
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 
+        //fixed query parameters as contants
+        private final String ZIP_CODE_PARAM = "q";
+        private final String MODE_PARAM = "mode";
+        private final String UNITS_PARAM = "units";
+        private final String CNT_PARAM = "cnt";
+
+        //query parameters values as contants
+        private final String MODE_PARAM_VALUE = "json";
+        private final String UNITS_PARAM_VALUE = "metric";
+        private final int CNT_PARAM_VALUE = 7;
+
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Void doInBackground(String... params) {
+            if(params.length == 0){
+                return null;
+            }
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
             HttpURLConnection urlConnection = null;
@@ -99,11 +114,22 @@ public class ForecastFragment extends Fragment {
             // Will contain the raw JSON response as a string.
             String forecastJsonStr = null;
 
+            //take postcode as an input parameter
+            final String postCode = params[0];
+            Uri buildUri = null;
+
             try {
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are avaiable at OWM's forecast API page, at
                 // http://openweathermap.org/API#forecast
-                URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7");
+                //URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7");
+
+                buildUri = Uri.parse("http://api.openweathermap.org/data/2.5/forecast/daily?").buildUpon()
+                                .appendQueryParameter(ZIP_CODE_PARAM,postCode)
+                                .appendQueryParameter(MODE_PARAM,MODE_PARAM_VALUE)
+                                .appendQueryParameter(UNITS_PARAM,UNITS_PARAM_VALUE)
+                                .appendQueryParameter(CNT_PARAM,""+CNT_PARAM_VALUE).build();
+                URL url = new URL(buildUri.toString());
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -148,6 +174,7 @@ public class ForecastFragment extends Fragment {
                         Log.e(LOG_TAG, "Error closing stream", e);
                     }
                 }
+                Log.e(LOG_TAG, buildUri.toString());
                 Log.e(LOG_TAG, forecastJsonStr);
             }
 
