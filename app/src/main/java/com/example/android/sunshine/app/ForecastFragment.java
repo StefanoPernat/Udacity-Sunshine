@@ -35,6 +35,8 @@ import java.util.List;
  */
 public class ForecastFragment extends Fragment {
 
+    ArrayAdapter<String> mForecastAdapter;
+
     public ForecastFragment() {
 
     }
@@ -62,7 +64,7 @@ public class ForecastFragment extends Fragment {
 
         List<String> weekForecast = new ArrayList<String>(Arrays.asList(forecastArray));
 
-        ArrayAdapter<String> forecastAdapter = new ArrayAdapter<String>(
+        mForecastAdapter = new ArrayAdapter<String>(
                                                     getActivity(),
                                                     R.layout.list_item_forecast,
                                                     R.id.list_item_forecast_textview,
@@ -70,7 +72,7 @@ public class ForecastFragment extends Fragment {
         );
 
         ListView forecastListView = (ListView) viewRoot.findViewById(R.id.listview_forecast);
-        forecastListView.setAdapter(forecastAdapter);
+        forecastListView.setAdapter(mForecastAdapter);
 
         return viewRoot;
     }
@@ -175,7 +177,7 @@ public class ForecastFragment extends Fragment {
             }
 
             for (String s : resultStrs) {
-                Log.v(LOG_TAG, "Forecast entry: " + s);
+                Log.e(LOG_TAG, "Forecast entry: " + s);
             }
             return resultStrs;
 
@@ -278,6 +280,17 @@ public class ForecastFragment extends Fragment {
             }
 
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(String[] result) {
+            if(result != null){
+                mForecastAdapter.clear();
+                for (String dayForecastStr: result){
+                    mForecastAdapter.add(dayForecastStr);
+                }
+            }
+
         }
     }
 }
