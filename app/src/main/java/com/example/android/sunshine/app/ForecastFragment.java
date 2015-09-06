@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -26,6 +28,7 @@ import java.util.List;
 public class ForecastFragment extends Fragment {
 
     public ForecastFragment() {
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -56,6 +59,11 @@ public class ForecastFragment extends Fragment {
         forecastListView.setAdapter(forecastAdapter);
 
         return viewRoot;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.forecastfragment,menu);
     }
 
     public class FetchWeatherTask extends AsyncTask<Void,Void,Void>{
