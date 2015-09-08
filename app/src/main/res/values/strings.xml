@@ -4,10 +4,13 @@
 
     <!-- main menu -->
     <string name="action_settings">Settings</string>
-    <string name="action_map">Map</string>
+    <string name="action_map">Map Location</string>
 
     <!-- forecast menu -->
     <string name="action_refresh" translatable="false">Refresh</string>
+
+    <!-- detail menu -->
+    <string name="action_share">Share</string>
 
 
     <string name="title_activity_detail">DetailActivity</string>
