@@ -14,3 +14,7 @@ Add an AsyncTask named 'FetchWeatherTask' to retrive real-time data from **OpenW
 #### Lesson 3 [completed]
 
 Add DetailActivity that shows the Selected Forecast, implemented a share action with ShareActionProvider extended application menu with Show Map Location option. 
+
+#### Lesson 4A [completed]
+
+Wrote WeatherContract, added WeatherDbHelper to ensure data persistence.
