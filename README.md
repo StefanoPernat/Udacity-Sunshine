@@ -18,3 +18,7 @@ Add DetailActivity that shows the Selected Forecast, implemented a share action 
 #### Lesson 4A [completed]
 
 Wrote WeatherContract, added WeatherDbHelper to ensure data persistence.
+
+#### Lesson 4B [completed]
+
+Built WeatherProvider and declared into the Android Manifest
